@@ -38,8 +38,8 @@ export default function StatCard({ title, value, icon, trend, color = "indigo" }
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-400">{title}</p>
-          <p className="text-2xl font-bold font-mono text-white mt-1">{value}</p>
+          <p className="text-sm" style={{ color: "rgb(var(--color-text-secondary))" }}>{title}</p>
+          <p className="text-2xl font-bold font-mono mt-1" style={{ color: "rgb(var(--color-text))" }}>{value}</p>
           {trend && (
             <p className="text-xs text-gray-500 mt-1">{trend}</p>
           )}

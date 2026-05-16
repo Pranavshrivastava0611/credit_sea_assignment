@@ -16,12 +16,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auto refresh on 401
+// Auto refresh on 401 (skip auth routes to avoid infinite loops)
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+    const url = original?.url || "";
+
+    // Never retry auth endpoints — they legitimately return 401
+    const isAuthRoute = url.includes("/auth/login") || url.includes("/auth/signup") || url.includes("/auth/refresh-token") || url.includes("/auth/logout");
+
+    if (error.response?.status === 401 && !original._retry && !isAuthRoute) {
       original._retry = true;
       try {
         const { data } = await axios.post(

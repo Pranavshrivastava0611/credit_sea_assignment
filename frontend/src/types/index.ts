@@ -40,6 +40,7 @@ export interface Loan {
   totalRepayment: number;
   status: LoanStatus;
   rejectionReason?: string;
+  disbursementNotes?: string;
   appliedAt: string;
   sanctionedAt?: string;
   disbursedAt?: string;

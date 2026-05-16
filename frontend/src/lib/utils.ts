@@ -33,11 +33,11 @@ export function formatDateTime(dateString: string): string {
 }
 
 export const STATUS_COLORS: Record<LoanStatus, string> = {
-  APPLIED: "bg-blue-500/20 text-blue-400 border border-blue-500/30",
-  SANCTIONED: "bg-violet-500/20 text-violet-400 border border-violet-500/30",
-  DISBURSED: "bg-amber-500/20 text-amber-400 border border-amber-500/30",
-  CLOSED: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
-  REJECTED: "bg-red-500/20 text-red-400 border border-red-500/30",
+  APPLIED: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20",
+  SANCTIONED: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20",
+  DISBURSED: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20",
+  CLOSED: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20",
+  REJECTED: "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20",
 };
 
 export function getStatusColor(status: LoanStatus): string {

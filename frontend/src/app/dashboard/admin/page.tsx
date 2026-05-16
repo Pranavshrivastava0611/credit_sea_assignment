@@ -74,9 +74,14 @@ export default function AdminPage() {
             onClick={() => setStatusFilter(s)}
             className={`px-4 py-2 rounded-lg text-xs font-medium transition-all ${
               statusFilter === s
-                ? "bg-primary/20 text-white border border-primary/30"
-                : "bg-dark-100 text-gray-400 border border-white/5 hover:border-white/10"
+                ? "bg-primary text-white shadow-lg shadow-primary/20"
+                : "border hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
             }`}
+            style={statusFilter !== s ? { 
+              background: "rgb(var(--color-bg-secondary))",
+              borderColor: "var(--glass-border)",
+              color: "rgb(var(--color-text-secondary))"
+            } : undefined}
           >
             {s || "All"}
           </button>

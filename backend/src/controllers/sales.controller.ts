@@ -43,3 +43,45 @@ export const getLeads = asyncHandler(async (req: AuthRequest, res: Response) => 
     }, "Sales leads fetched")
   );
 });
+
+// GET /api/v1/sales/pipeline — Loan pipeline stats + recent applications
+export const getPipeline = asyncHandler(async (req: AuthRequest, res: Response) => {
+  // Get count by status
+  const statusCounts = await Loan.aggregate([
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  const pipeline: Record<string, number> = {};
+  statusCounts.forEach((s) => {
+    pipeline[s._id] = s.count;
+  });
+
+  // Total borrowers registered
+  const totalBorrowers = await User.countDocuments({ role: "Borrower" });
+
+  // Leads (borrowers without any loans)
+  const borrowersWithLoans = await Loan.distinct("borrower");
+  const totalLeads = await User.countDocuments({
+    role: "Borrower",
+    _id: { $nin: borrowersWithLoans },
+  });
+
+  // Recent applications (last 10)
+  const recentApplications = await Loan.find()
+    .populate("borrower", "name email")
+    .sort({ appliedAt: -1 })
+    .limit(10)
+    .select("fullName pan principal status appliedAt monthlySalary employmentMode");
+
+  res.json(
+    new ApiResponse(200, {
+      pipeline,
+      totalBorrowers,
+      totalLeads,
+      conversionRate: totalBorrowers > 0
+        ? Math.round(((totalBorrowers - totalLeads) / totalBorrowers) * 100)
+        : 0,
+      recentApplications,
+    }, "Sales pipeline fetched")
+  );
+});

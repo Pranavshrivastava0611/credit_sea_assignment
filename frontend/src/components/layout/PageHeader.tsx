@@ -15,9 +15,9 @@ export default function PageHeader({ title, description, children }: PageHeaderP
       className="flex items-center justify-between mb-8"
     >
       <div>
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
+        <h1 className="text-2xl font-bold" style={{ color: "rgb(var(--color-text))" }}>{title}</h1>
         {description && (
-          <p className="text-sm text-gray-400 mt-1">{description}</p>
+          <p className="text-sm mt-1" style={{ color: "rgb(var(--color-text-secondary))" }}>{description}</p>
         )}
       </div>
       {children && <div className="flex items-center gap-3">{children}</div>}

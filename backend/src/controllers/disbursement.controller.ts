@@ -31,6 +31,7 @@ export const getSanctionedLoans = asyncHandler(async (req: AuthRequest, res: Res
 // PATCH /api/v1/disbursement/loans/:id/disburse
 export const disburseLoan = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
+  const { disbursementNotes } = req.body;
 
   const loan = await Loan.findById(id);
   if (!loan) throw new ApiError(404, "Loan not found");
@@ -45,6 +46,9 @@ export const disburseLoan = asyncHandler(async (req: AuthRequest, res: Response)
   loan.status = "DISBURSED";
   loan.disbursedAt = new Date();
   loan.disbursedBy = req.user!._id;
+  if (disbursementNotes) {
+    loan.disbursementNotes = disbursementNotes;
+  }
   await loan.save();
 
   res.json(new ApiResponse(200, loan, "Loan disbursed successfully"));

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -26,26 +27,31 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-dark relative overflow-hidden">
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden" style={{ background: "rgb(var(--color-bg))" }}>
+      <div className="absolute top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+      
+      {/* Background decorations */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-violet-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="w-full max-w-md relative z-10"
       >
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/30">
-            <span className="text-white font-bold text-xl">CS</span>
+        <div className="text-center mb-10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-500/20">
+            <span className="text-white font-bold text-2xl">CS</span>
           </div>
-          <h1 className="text-2xl font-bold text-white">Create your account</h1>
-          <p className="text-gray-400 text-sm mt-1">Start your loan journey with CreditSea</p>
+          <h1 className="text-3xl font-extrabold" style={{ color: "rgb(var(--color-text))" }}>Join CreditSea</h1>
+          <p className="mt-2" style={{ color: "rgb(var(--color-text-secondary))" }}>Start your journey towards financial freedom</p>
         </div>
 
-        <div className="glass-card-highlight p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="glass-card p-8 shadow-2xl border-t-2 border-t-primary/30">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               label="Full Name"
               id="signup-name"
@@ -56,7 +62,7 @@ export default function SignupPage() {
               required
             />
             <Input
-              label="Email"
+              label="Email Address"
               id="signup-email"
               type="email"
               value={email}
@@ -70,20 +76,33 @@ export default function SignupPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Min 6 characters"
+              placeholder="Min. 6 characters"
               minLength={6}
               required
             />
-            <Button type="submit" loading={loading} className="w-full" size="lg">
+            <Button 
+              type="submit" 
+              loading={loading} 
+              className="w-full h-12 shadow-lg shadow-indigo-500/25 font-bold" 
+              size="lg"
+            >
               Create Account
             </Button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-6">
-            Already have an account?{" "}
-            <Link href="/login" className="text-primary-hover hover:text-primary font-medium transition-colors">
-              Sign in
-            </Link>
+          <div className="mt-8 pt-6 text-center border-t" style={{ borderColor: "var(--glass-border)" }}>
+            <p className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary font-bold hover:underline underline-offset-4">
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>
+            By creating an account, you agree to our <span className="underline">Terms of Service</span> and <span className="underline">Privacy Policy</span>.
           </p>
         </div>
       </motion.div>

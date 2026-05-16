@@ -59,8 +59,8 @@ export default function CollectionPage() {
             const pct = l.totalRepayment > 0 ? ((l.totalPaid || 0) / l.totalRepayment) * 100 : 0;
             return (
               <div className="space-y-1">
-                <span className="font-mono text-amber-400">{formatCurrency(l.outstanding || 0)}</span>
-                <div className="w-full bg-dark-100 rounded-full h-1.5">
+                <span className="font-mono text-amber-600 dark:text-amber-400">{formatCurrency(l.outstanding || 0)}</span>
+                <div className="w-full rounded-full h-1.5" style={{ background: "rgb(var(--color-bg-secondary))" }}>
                   <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${Math.min(pct, 100)}%` }} />
                 </div>
               </div>
@@ -104,51 +104,55 @@ export default function CollectionPage() {
         <div className="space-y-4">
           {/* Borrower summary */}
           {selected && (
-            <div className="flex items-center gap-3 bg-dark-100/60 rounded-xl p-3 mb-2">
+            <div className="flex items-center gap-3 rounded-xl p-3 mb-2"
+              style={{ background: "rgb(var(--color-bg-secondary))" }}
+            >
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">{selected.fullName.charAt(0)}</span>
               </div>
               <div>
-                <p className="text-white text-sm font-medium">{selected.fullName}</p>
-                <p className="text-gray-500 text-xs">PAN: {selected.pan}</p>
+                <p className="text-sm font-medium" style={{ color: "rgb(var(--color-text))" }}>{selected.fullName}</p>
+                <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>PAN: {selected.pan}</p>
               </div>
             </div>
           )}
 
           {paymentSummary && (
             <div className="grid grid-cols-3 gap-3 mb-4">
-              <div className="bg-dark-100/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-500">Total Repayable</p>
-                <p className="text-white font-mono font-semibold">{formatCurrency(paymentSummary.totalRepayment)}</p>
+              <div className="rounded-lg p-3 text-center" style={{ background: "rgb(var(--color-bg-secondary))" }}>
+                <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>Total Repayable</p>
+                <p className="font-mono font-semibold" style={{ color: "rgb(var(--color-text))" }}>{formatCurrency(paymentSummary.totalRepayment)}</p>
               </div>
-              <div className="bg-dark-100/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-500">Paid</p>
-                <p className="text-emerald-400 font-mono font-semibold">{formatCurrency(paymentSummary.totalPaid)}</p>
+              <div className="rounded-lg p-3 text-center" style={{ background: "rgb(var(--color-bg-secondary))" }}>
+                <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>Paid</p>
+                <p className="text-emerald-600 dark:text-emerald-400 font-mono font-semibold">{formatCurrency(paymentSummary.totalPaid)}</p>
               </div>
-              <div className="bg-dark-100/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-500">Outstanding</p>
-                <p className="text-amber-400 font-mono font-semibold">{formatCurrency(paymentSummary.outstanding)}</p>
+              <div className="rounded-lg p-3 text-center" style={{ background: "rgb(var(--color-bg-secondary))" }}>
+                <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>Outstanding</p>
+                <p className="text-amber-600 dark:text-amber-400 font-mono font-semibold">{formatCurrency(paymentSummary.outstanding)}</p>
               </div>
             </div>
           )}
           {payments.length === 0 ? (
-            <p className="text-gray-400 text-center py-6">No payments recorded yet</p>
+            <p className="text-center py-6" style={{ color: "rgb(var(--color-text-muted))" }}>No payments recorded yet</p>
           ) : (
             <div className="space-y-2 max-h-80 overflow-y-auto">
               {payments.map((p, i) => (
-                <div key={p._id} className="bg-dark-100/50 rounded-lg p-4 flex justify-between items-center">
+                <div key={p._id} className="rounded-lg p-4 flex justify-between items-center"
+                  style={{ background: "rgb(var(--color-bg-secondary))" }}
+                >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xs font-bold">
                       {i + 1}
                     </div>
                     <div>
-                      <p className="text-white font-mono text-sm">{formatCurrency(p.amount)}</p>
-                      <p className="text-xs text-gray-500">UTR: {p.utrNumber} • {formatDate(p.paymentDate)}</p>
+                      <p className="font-mono text-sm" style={{ color: "rgb(var(--color-text))" }}>{formatCurrency(p.amount)}</p>
+                      <p className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>UTR: {p.utrNumber} • {formatDate(p.paymentDate)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-gray-500">Remaining</span>
-                    <p className="text-sm font-mono text-amber-400">{formatCurrency(p.outstandingAfter)}</p>
+                    <span className="text-xs" style={{ color: "rgb(var(--color-text-muted))" }}>Remaining</span>
+                    <p className="text-sm font-mono text-amber-600 dark:text-amber-400">{formatCurrency(p.outstandingAfter)}</p>
                   </div>
                 </div>
               ))}

@@ -26,7 +26,7 @@ export default function DashboardLayout({
   if (!user || user.role === "Borrower") return null;
 
   return (
-    <div className="flex min-h-screen bg-dark">
+    <div className="flex min-h-screen" style={{ background: "rgb(var(--color-bg))" }}>
       <Sidebar />
       <div className="flex-1 ml-[260px]">
         <Navbar />

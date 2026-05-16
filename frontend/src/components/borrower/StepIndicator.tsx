@@ -9,7 +9,7 @@ interface StepIndicatorProps {
 
 export default function StepIndicator({ currentStep, steps }: StepIndicatorProps) {
   return (
-    <div className="flex items-center justify-center mb-10">
+    <div className="flex items-center justify-center mb-10 overflow-x-auto py-2">
       {steps.map((step, index) => {
         const stepNum = index + 1;
         const isActive = stepNum === currentStep;
@@ -23,10 +23,15 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
                 animate={{ scale: isActive ? 1.1 : 1 }}
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300",
-                  isCompleted && "bg-gradient-to-r from-emerald-500 to-green-600 text-white",
+                  isCompleted && "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg shadow-emerald-500/20",
                   isActive && "bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30",
-                  !isActive && !isCompleted && "bg-dark-100 text-gray-500 border border-white/10"
+                  !isActive && !isCompleted && "border"
                 )}
+                style={!isActive && !isCompleted ? {
+                  background: "rgb(var(--color-bg-secondary))",
+                  borderColor: "var(--glass-border)",
+                  color: "rgb(var(--color-text-muted))"
+                } : undefined}
               >
                 {isCompleted ? (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,10 +42,8 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
                 )}
               </motion.div>
               <span
-                className={cn(
-                  "text-xs mt-2 font-medium whitespace-nowrap",
-                  isActive ? "text-white" : "text-gray-500"
-                )}
+                className="text-[10px] mt-2 font-bold uppercase tracking-wider whitespace-nowrap"
+                style={{ color: isActive ? "rgb(var(--color-text))" : "rgb(var(--color-text-muted))" }}
               >
                 {step}
               </span>
@@ -48,10 +51,10 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
             {index < steps.length - 1 && (
               <div
                 className={cn(
-                  "w-20 h-0.5 mx-3 mt-[-18px] transition-all duration-500",
+                  "w-12 sm:w-20 h-0.5 mx-2 sm:mx-3 mt-[-20px] transition-all duration-500 rounded-full",
                   stepNum < currentStep
                     ? "bg-gradient-to-r from-emerald-500 to-indigo-500"
-                    : "bg-white/10"
+                    : "bg-black/5 dark:bg-white/10"
                 )}
               />
             )}

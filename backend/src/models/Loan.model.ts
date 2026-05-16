@@ -30,6 +30,7 @@ export interface ILoan extends Document {
   // Status
   status: LoanStatus;
   rejectionReason?: string;
+  disbursementNotes?: string;
   // Timestamps for transitions
   appliedAt: Date;
   sanctionedAt?: Date;
@@ -73,6 +74,7 @@ const LoanSchema = new Schema<ILoan>(
       default: "APPLIED",
     },
     rejectionReason: { type: String },
+    disbursementNotes: { type: String },
     appliedAt: { type: Date, default: Date.now },
     sanctionedAt: { type: Date },
     disbursedAt: { type: Date },

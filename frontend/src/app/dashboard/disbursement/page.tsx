@@ -18,6 +18,7 @@ export default function DisbursementPage() {
   const [selected, setSelected] = useState<Loan | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [detailLoan, setDetailLoan] = useState<Loan | null>(null);
+  const [disbursementNotes, setDisbursementNotes] = useState("");
 
   useEffect(() => { fetchLoans(); }, []);
 
@@ -31,8 +32,8 @@ export default function DisbursementPage() {
     if (!selected) return;
     setActionLoading(true);
     try {
-      await disburseLoan(selected._id);
-      setConfirmOpen(false); setSelected(null); fetchLoans();
+      await disburseLoan(selected._id, disbursementNotes || undefined);
+      setConfirmOpen(false); setSelected(null); setDisbursementNotes(""); fetchLoans();
     } catch (e: any) { toast.error(e.response?.data?.message || "Failed"); }
     finally { setActionLoading(false); }
   };
@@ -72,34 +73,44 @@ export default function DisbursementPage() {
       {/* Confirm Disbursement Modal */}
       <Modal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)} title="Confirm Disbursement">
         <div className="space-y-4">
-          <p className="text-sm text-gray-400">Are you sure you want to disburse this loan? Funds will be released to the borrower.</p>
+          <p className="text-sm" style={{ color: "rgb(var(--color-text-secondary))" }}>Are you sure you want to disburse this loan? Funds will be released to the borrower.</p>
           {selected && (
-            <div className="bg-dark-100/50 rounded-xl p-4 space-y-3">
+            <div className="rounded-xl p-4 space-y-3" style={{ background: "rgb(var(--color-bg-secondary))" }}>
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-sm">Borrower</span>
-                <span className="text-white font-medium">{selected.fullName}</span>
+                <span className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>Borrower</span>
+                <span className="font-medium" style={{ color: "rgb(var(--color-text))" }}>{selected.fullName}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-sm">PAN</span>
-                <span className="text-white font-mono text-sm">{selected.pan}</span>
+                <span className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>PAN</span>
+                <span className="font-mono text-sm" style={{ color: "rgb(var(--color-text))" }}>{selected.pan}</span>
               </div>
-              <div className="border-t border-white/5 my-1" />
+              <div style={{ borderTop: "1px solid rgb(var(--color-border) / 0.08)" }} className="my-1" />
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-sm">Loan Amount</span>
-                <span className="text-white font-mono font-semibold">{formatCurrency(selected.principal)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-sm">Tenure</span>
-                <span className="text-white font-mono">{selected.tenureDays} days </span>
+                <span className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>Loan Amount</span>
+                <span className="font-mono font-semibold" style={{ color: "rgb(var(--color-text))" }}>{formatCurrency(selected.principal)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-sm">Total Repayment</span>
-                <span className="text-indigo-400 font-mono font-bold text-lg">{formatCurrency(selected.totalRepayment)}</span>
+                <span className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>Tenure</span>
+                <span className="font-mono" style={{ color: "rgb(var(--color-text))" }}>{selected.tenureDays} days</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm" style={{ color: "rgb(var(--color-text-muted))" }}>Total Repayment</span>
+                <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold text-lg">{formatCurrency(selected.totalRepayment)}</span>
               </div>
             </div>
           )}
+          <div>
+            <label className="block text-xs mb-1.5 uppercase tracking-wider" style={{ color: "rgb(var(--color-text-muted))" }}>Disbursement Notes <span className="opacity-60">(optional)</span></label>
+            <textarea
+              value={disbursementNotes}
+              onChange={(e) => setDisbursementNotes(e.target.value)}
+              placeholder="e.g. Transferred to HDFC A/C ****1234 via NEFT, Ref: HDFC123456"
+              rows={3}
+              className="input-dark resize-none"
+            />
+          </div>
           <div className="flex gap-3">
-            <Button variant="ghost" onClick={() => setConfirmOpen(false)} className="flex-1">Cancel</Button>
+            <Button variant="ghost" onClick={() => { setConfirmOpen(false); setDisbursementNotes(""); }} className="flex-1">Cancel</Button>
             <Button onClick={handleDisburse} loading={actionLoading} className="flex-1 bg-gradient-to-r from-amber-500 to-orange-600">Confirm Disbursement</Button>
           </div>
         </div>

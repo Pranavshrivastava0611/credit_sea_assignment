@@ -6,7 +6,6 @@ import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { runBRE } from "../services/bre.service";
 import { calculateLoan } from "../services/loan.service";
-import { uploadToCloudinary } from "../services/cloudinary.service";
 
 // POST /api/v1/borrower/bre-check
 export const breCheck = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -40,20 +39,21 @@ export const uploadSalarySlipHandler = asyncHandler(
       throw new ApiError(400, "Salary slip file is required");
     }
 
-    // Upload buffer to Cloudinary
-    const result = await uploadToCloudinary(req.file.buffer, req.file.originalname);
+    // Since we are using diskStorage, req.file already contains the destination path
+    const fileUrl = `/uploads/${req.file.filename}`;
 
     res.json(
       new ApiResponse(200, {
-        url: result.secureUrl,
-        publicId: result.publicId,
-        fileName: result.originalFilename,
-        size: result.bytes,
-        format: result.format,
-      }, "Salary slip uploaded to cloud successfully")
+        url: fileUrl,
+        publicId: req.file.filename, // Using filename as ID for consistency
+        fileName: req.file.originalname,
+        size: req.file.size,
+        format: req.file.mimetype.split("/")[1],
+      }, "Salary slip uploaded to local storage successfully")
     );
   }
 );
+
 
 // POST /api/v1/borrower/apply
 export const applyForLoan = asyncHandler(async (req: AuthRequest, res: Response) => {

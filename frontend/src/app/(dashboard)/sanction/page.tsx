@@ -4,9 +4,9 @@ import { useLoan } from "@/hooks/useLoan";
 import { Loan } from "@/types";
 import PageHeader from "@/components/layout/PageHeader";
 import LoanTable from "@/components/dashboard/LoanTable";
-import LoanDetailsModal from "@/components/dashboard/LoanDetailsModal";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import { formatCurrency } from "@/lib/utils";
 import toast from "react-hot-toast";
 
 export default function SanctionPage() {
@@ -17,7 +17,6 @@ export default function SanctionPage() {
   const [selectedLoanId, setSelectedLoanId] = useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
-  const [detailLoan, setDetailLoan] = useState<Loan | null>(null);
 
   useEffect(() => {
     fetchLoans();
@@ -75,7 +74,6 @@ export default function SanctionPage() {
         loading={loading}
         columns={[
           { key: "borrowerName", label: "Borrower" },
-          { key: "borrowerEmail", label: "Email" },
           { key: "pan", label: "PAN" },
           { key: "monthlySalary", label: "Salary" },
           { key: "principal", label: "Loan Amount" },
@@ -84,17 +82,6 @@ export default function SanctionPage() {
         ]}
         actions={(loan) => (
           <>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setDetailLoan(loan)}
-              className="!px-3"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-            </Button>
             <Button
               size="sm"
               variant="success"
@@ -117,14 +104,6 @@ export default function SanctionPage() {
         )}
       />
 
-      {/* Loan Details Modal */}
-      <LoanDetailsModal
-        loan={detailLoan}
-        isOpen={!!detailLoan}
-        onClose={() => setDetailLoan(null)}
-      />
-
-      {/* Rejection Modal */}
       <Modal
         isOpen={rejectModalOpen}
         onClose={() => {
@@ -134,7 +113,7 @@ export default function SanctionPage() {
         title="Reject Loan Application"
       >
         <div className="space-y-4">
-          <p className="text-sm" style={{ color: "rgb(var(--color-text-secondary))" }}>
+          <p className="text-sm text-gray-400">
             Please provide a reason for rejecting this loan application. This will be visible to the borrower.
           </p>
           <textarea

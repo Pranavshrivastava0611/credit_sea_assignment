@@ -33,13 +33,20 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" }:
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className={`relative ${sizes[size]} w-full mx-4 glass-card-highlight p-6`}
+            className={`relative ${sizes[size]} w-full mx-4 p-6 rounded-2xl border`}
+            style={{
+              background: "rgb(var(--color-bg-card))",
+              borderColor: "var(--glass-border)",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+              borderTop: "2px solid rgba(99, 102, 241, 0.3)",
+            }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-white">{title}</h3>
+              <h3 className="text-lg font-semibold" style={{ color: "rgb(var(--color-text))" }}>{title}</h3>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors p-1"
+                className="p-1.5 rounded-lg transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+                style={{ color: "rgb(var(--color-text-muted))" }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

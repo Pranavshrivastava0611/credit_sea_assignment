@@ -55,6 +55,11 @@ export function useLoan() {
     return data.data;
   }, []);
 
+  const getPipeline = useCallback(async () => {
+    const { data } = await api.get("/sales/pipeline");
+    return data.data;
+  }, []);
+
   const getAppliedLoans = useCallback(async (page = 1, limit = 10) => {
     const { data } = await api.get(`/sanction/loans?page=${page}&limit=${limit}`);
     return data.data;
@@ -77,8 +82,8 @@ export function useLoan() {
     return data.data;
   }, []);
 
-  const disburseLoan = useCallback(async (loanId: string) => {
-    const { data } = await api.patch(`/disbursement/loans/${loanId}/disburse`);
+  const disburseLoan = useCallback(async (loanId: string, disbursementNotes?: string) => {
+    const { data } = await api.patch(`/disbursement/loans/${loanId}/disburse`, { disbursementNotes });
     toast.success("Loan disbursed!");
     return data.data;
   }, []);
@@ -124,6 +129,7 @@ export function useLoan() {
     applyForLoan,
     getMyLoans,
     getLeads,
+    getPipeline,
     getAppliedLoans,
     approveLoan,
     rejectLoan,
