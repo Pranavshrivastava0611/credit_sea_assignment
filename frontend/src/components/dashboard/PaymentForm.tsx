@@ -3,6 +3,7 @@ import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import DatePicker from "@/components/ui/DatePicker";
 
 interface PaymentFormProps {
   isOpen: boolean;
@@ -74,12 +75,12 @@ export default function PaymentForm({ isOpen, onClose, onSubmit, maxAmount }: Pa
           min={1}
           max={maxAmount}
         />
-        <Input
+        <DatePicker
           label="Payment Date"
           id="payment-date"
-          type="date"
-          value={paymentDate}
-          onChange={(e) => setPaymentDate(e.target.value)}
+          selected={paymentDate ? new Date(paymentDate) : null}
+          onChange={(date) => setPaymentDate(date ? date.toISOString().split("T")[0] : "")}
+          maxDate={new Date()}
         />
 
         {error && (

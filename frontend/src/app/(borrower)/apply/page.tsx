@@ -13,6 +13,7 @@ import LoanCalculator from "@/components/borrower/LoanCalculator";
 import FileUpload from "@/components/borrower/FileUpload";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import DatePicker from "@/components/ui/DatePicker";
 import Slider from "@/components/ui/Slider";
 import Card from "@/components/ui/Card";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -180,13 +181,13 @@ export default function ApplyPage() {
                     maxLength={10}
                     required
                   />
-                  <Input
+                  <DatePicker
                     label="Date of Birth"
                     id="apply-dob"
-                    type="date"
-                    value={dateOfBirth}
-                    onChange={(e) => setDateOfBirth(e.target.value)}
+                    selected={dateOfBirth ? new Date(dateOfBirth) : null}
+                    onChange={(date) => setDateOfBirth(date ? date.toISOString().split("T")[0] : "")}
                     required
+                    maxDate={new Date()}
                   />
                   <Input
                     label="Monthly Salary"
