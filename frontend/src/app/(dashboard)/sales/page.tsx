@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useLoan } from "@ho";
+import { useLoan } from "@/hooks/useLoan";
 import { User } from "@/types";
 import PageHeader from "@/components/layout/PageHeader";
 import Input from "@/components/ui/Input";
