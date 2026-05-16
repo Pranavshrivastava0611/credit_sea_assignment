@@ -63,10 +63,20 @@ app.use("/api/v1/disbursement", disbursementRoutes);
 app.use("/api/v1/collection", collectionRoutes);
 app.use("/api/v1/admin", adminRoutes);
 
+// Root routes
+app.get("/", (_req, res) => {
+  res.json({ message: "LMS Backend API is running", version: "1.0.0" });
+});
+
+app.get("/api/v1", (_req, res) => {
+  res.json({ message: "LMS API v1", status: "active" });
+});
+
 // Health check
 app.get("/api/v1/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
+
 
 // Global error handler (must be last)
 app.use(errorHandler);
