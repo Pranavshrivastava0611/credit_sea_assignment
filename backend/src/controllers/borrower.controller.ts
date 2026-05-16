@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { runBRE } from "../services/bre.service";
 import { calculateLoan } from "../services/loan.service";
+import { uploadToCloudinary } from "../services/cloudinary.service";
 
 // POST /api/v1/borrower/bre-check
 export const breCheck = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -39,14 +40,17 @@ export const uploadSalarySlipHandler = asyncHandler(
       throw new ApiError(400, "Salary slip file is required");
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
+    // Upload buffer to Cloudinary
+    const result = await uploadToCloudinary(req.file.buffer, req.file.originalname);
 
     res.json(
       new ApiResponse(200, {
-        url: fileUrl,
-        fileName: req.file.originalname,
-        size: req.file.size,
-      }, "Salary slip uploaded successfully")
+        url: result.secureUrl,
+        publicId: result.publicId,
+        fileName: result.originalFilename,
+        size: result.bytes,
+        format: result.format,
+      }, "Salary slip uploaded to cloud successfully")
     );
   }
 );
