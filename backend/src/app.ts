@@ -22,23 +22,7 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, Postman, etc.)
-      if (!origin) return callback(null, true);
-
-      const allowedOrigins = [
-        env.FRONTEND_URL,
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
-      ];
-
-      if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS blocked: ${origin}`));
-      }
-    },
+    origin: true,
     credentials: true,
   })
 );
