@@ -197,6 +197,7 @@ export default function ApplyPage() {
                     value={monthlySalary || ""}
                     onChange={(e) => setMonthlySalary(Number(e.target.value))}
                     placeholder="25000"
+                    step="any"
                     required
                   />
 

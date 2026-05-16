@@ -72,7 +72,8 @@ export default function PaymentForm({ isOpen, onClose, onSubmit, maxAmount }: Pa
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="0.00"
-          min={1}
+          min={0.01}
+          step="any"
           max={maxAmount}
         />
         <DatePicker
