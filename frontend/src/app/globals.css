@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-dark text-white font-sans antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-300;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-xl;
+  }
+
+  .glass-card-highlight {
+    @apply glass-card border-t-2 border-t-primary/30;
+  }
+
+  .input-dark {
+    @apply w-full bg-dark-100 border border-white/10 rounded-lg px-4 py-3 text-white 
+           placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary 
+           focus:border-transparent transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-medium 
+           px-6 py-3 rounded-lg hover:from-indigo-400 hover:to-violet-500 
+           active:from-indigo-600 active:to-violet-700 transition-all duration-200 
+           shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply border border-white/10 text-white font-medium px-6 py-3 rounded-lg 
+           hover:bg-white/5 active:bg-white/10 transition-all duration-200;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-rose-500 to-red-600 text-white font-medium 
+           px-6 py-3 rounded-lg hover:from-rose-400 hover:to-red-500 
+           transition-all duration-200 shadow-lg shadow-rose-500/25;
+  }
+
+  .btn-success {
+    @apply bg-gradient-to-r from-emerald-500 to-green-600 text-white font-medium 
+           px-6 py-3 rounded-lg hover:from-emerald-400 hover:to-green-500 
+           transition-all duration-200 shadow-lg shadow-emerald-500/25;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 
+           hover:text-white hover:bg-white/5 transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item-active {
+    @apply text-white bg-primary/10 border-l-2 border-l-primary;
+  }
+
+  .table-row {
+    @apply border-b border-white/5 hover:bg-white/[0.02] transition-colors duration-150;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-white/10 rounded;
+  }
+}
+
+/* ── Dark-mode native date/time input overrides ── */
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"] {
+  color-scheme: dark;
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(200deg);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Style the inner date text */
+input[type="date"]::-webkit-datetime-edit,
+input[type="datetime-local"]::-webkit-datetime-edit {
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+input[type="datetime-local"]::-webkit-datetime-edit-fields-wrapper {
+  color: #e2e8f0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  color: #6366F1;
+  padding: 0 2px;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #e2e8f0;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus {
+  background: rgba(99, 102, 241, 0.2);
+  color: #fff;
+  border-radius: 3px;
+  outline: none;
+}
+
+/* Firefox date input */
+input[type="date"]::-moz-calendar-picker-indicator {
+  filter: invert(0.5);
+}
