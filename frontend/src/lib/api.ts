@@ -1,7 +1,20 @@
 import axios from "axios";
 
+const getBaseURL = () => {
+  let url = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000/api/v1";
+  
+  // Ensure it doesn't end with a slash for consistency
+  if (url.endsWith("/")) {
+    url = url.slice(0, -1);
+  }
+
+  return url;
+};
+
+const baseURL = getBaseURL();
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1",
+  baseURL,
   withCredentials: true,
 });
 
@@ -30,7 +43,7 @@ api.interceptors.response.use(
       original._retry = true;
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1"}/auth/refresh-token`,
+          `${baseURL}/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
@@ -50,3 +63,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+
